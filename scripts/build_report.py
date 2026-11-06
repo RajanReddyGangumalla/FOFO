@@ -5,7 +5,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, PageBreak
 
 SRC = "case_report.md"
 OUT = "case_report.pdf"
@@ -43,10 +43,27 @@ def flush_table(rows):
     ]))
     return t
 
+COVER_TITLE = ParagraphStyle("COVER_TITLE", fontName="Helvetica-Bold", fontSize=26, leading=32, textColor=colors.HexColor("#1a3a5c"), alignment=1, spaceAfter=14)
+COVER_SUB = ParagraphStyle("COVER_SUB", fontName="Helvetica", fontSize=13, leading=18, textColor=colors.HexColor("#444444"), alignment=1, spaceAfter=8)
+COVER_META = ParagraphStyle("COVER_META", fontName="Helvetica", fontSize=10, leading=15, textColor=colors.HexColor("#666666"), alignment=1)
+COVER_RULE = HRFlowable(width="40%", thickness=2, color=colors.HexColor("#1a3a5c"), spaceBefore=20, spaceAfter=20, hAlign="CENTER")
+
 doc = SimpleDocTemplate(OUT, pagesize=A4, leftMargin=0.7*inch, rightMargin=0.7*inch,
                         topMargin=0.7*inch, bottomMargin=0.7*inch,
                         title="Bambinos AI PM Sales - Take-Home Case Report")
 story = []
+story += [
+    Spacer(1, 2.2*inch),
+    Paragraph("Bambinos.live", COVER_TITLE),
+    Paragraph("AI Post-Demo Conversion &amp; Call Intelligence Pipeline", COVER_SUB),
+    COVER_RULE,
+    Paragraph("AI Program Manager (Sales) — Take-Home Case Submission", COVER_META),
+    Spacer(1, 10),
+    Paragraph("Candidate: [Your Name] &nbsp;·&nbsp; November 2026", COVER_META),
+    Paragraph("Dataset: 6 call transcripts · 12-lead CRM · demo evaluations · orders · pricing &amp; compliance policy", COVER_META),
+    Paragraph("Repository: github.com/[your-username]/FOFO", COVER_META),
+]
+story.append(PageBreak())
 lines = open(SRC).read().splitlines()
 i = 0
 while i < len(lines):

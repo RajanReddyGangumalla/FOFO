@@ -92,6 +92,37 @@ Private-first scorecards (reps see only their own), lead with exemplar calls, co
 
 ---
 
+## Appendix — Sample Prototype Outputs
+
+### A.1 Call audit scorecard — Call 7003 (LEAD-803 Vihaan, Grade F)
+
+- **Total:** 12/60 — dimensions: Rapport 3, Discovery 2, Value Pitch 1, Objection Handling 1, Trial Close 2, Compliance 3
+- **Critical flags:** `Forbidden_Outcome_Claim` ("guaranteed Rank-1 in 30 days"), `Unauthorized_Discount` (42% vs 10% cap), `Fake_Refund_Promise` (off-record), `Coercive_Threat` ("blacklist from platform")
+- **Escalation:** `escalate_to_manager: true`, `suppress_parent_outreach: true` — payment link voided, manager alert sent
+- **Coaching:** P1 — replace guarantee with curriculum evidence; P2 — never discount beyond policy; P3 — policy-mandated offers cannot be skipped
+
+### A.2 WhatsApp Touch 1 — LEAD-805 (Kabir, payment recovery, Hinglish)
+
+> Namaste! Kabir ki Brainiac Maths demo class mein aaj bohot accha laga — teacher ne specifically bataya ki usne word problems ko Bar-Model se solve kiya. Humne aapka payment link dobara bhej diya hai; bas ek click mein Kabir ki seat confirm ho jayegi. Koi dikkat ho to reply kar dein, hum help karenge.
+
+*Stop-trigger: if payment succeeds → sales cadence stops, onboarding sequence starts.*
+
+### A.3 Pipeline leaks — top findings (of 8 across 12 leads)
+
+| # | Lead | Leak | Automated fix |
+|---|---|---|---|
+| 1 | LEAD-807 | 5/5 demo engagement, never called (26h+) | Hot-lead call task + WhatsApp Touch 1 |
+| 2 | LEAD-812 | Same — high intent, uncalled | Same |
+| 3 | LEAD-805 | Payment failed after verbal yes | Same-day recovery WhatsApp + retry link |
+| 4 | LEAD-803 | False "Interested" disposition on flagged call | Re-stage → Do_Not_Contact + compliance review |
+| 5 | LEAD-811 | Duplicate of LEAD-801 | Merge records, single thread |
+
+### A.4 Interactive demo
+
+A local dashboard (`dashboard/`) visualizes all outputs: live pipeline simulation, scorecards with transcript evidence highlighting, filterable CRM, and WhatsApp sequences. Serve repo root with `python3 -m http.server 8080` → `http://localhost:8080/dashboard/`.
+
+---
+
 ## Submission artifacts
 
 - **Prompts:** `prompts/*.md` (deterministic, JSON-mode)
