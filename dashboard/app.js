@@ -286,6 +286,13 @@ function setStage(cid, idx, state) {
 function setStatus(cid, text, cls) {
   const el = $(`#pc-status-${cid}`); if (!el) return;
   el.className = `badge ${cls}`; el.textContent = text;
+  const card = $(`#pc-${cid}`);
+  if (card) {
+    card.classList.remove('processing', 'done-card', 'flag-card');
+    if (text === 'processing') card.classList.add('processing');
+    else if (text === 'flagged') card.classList.add('flag-card');
+    else if (text === 'done') card.classList.add('done-card');
+  }
 }
 
 /* ---------- CALL AUDITS ---------- */
