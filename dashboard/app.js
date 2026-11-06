@@ -528,6 +528,21 @@ function vReport() {
     </div>`;
 }
 
-load().catch(e => {
+/* ---------- theme ---------- */
+function currentTheme() { return document.documentElement.dataset.theme || 'dark'; }
+function syncThemeUI() {
+  const light = currentTheme() === 'light';
+  $('#theme-icon').textContent = light ? '☾' : '☀';
+  $('#theme-label').textContent = light ? 'Dark mode' : 'Light mode';
+}
+function toggleTheme() {
+  const next = currentTheme() === 'light' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('ci-theme', next);
+  syncThemeUI();
+  toast(`Switched to ${next} theme`, 'ok');
+}
+
+load().then(syncThemeUI).catch(e => {
   $('#content').innerHTML = `<div class="empty">Failed to load pipeline data: ${esc(String(e))}<br><br>Serve the repo root, e.g. <code>python3 -m http.server 8080</code> from the project directory.</div>`;
 });

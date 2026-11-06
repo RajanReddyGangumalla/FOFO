@@ -4,13 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Post-Demo Call Intelligence</title>
+<script>
+  document.documentElement.dataset.theme = localStorage.getItem('ci-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+</script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="layout">
-  <aside>
+  <aside class="side">
     <div class="logo">Call<span>Intel</span></div>
     <nav id="nav"></nav>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()"><span id="theme-icon">☀</span><span class="txt" id="theme-label">Light mode</span></button>
     <div class="side-foot">Pipeline v1 · Run 2026-11-03<br><span id="run-status">Idle</span></div>
   </aside>
   <main>
