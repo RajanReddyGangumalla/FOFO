@@ -4,306 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Post-Demo Call Intelligence</title>
-<style>
-  :root {
-    --bg: #f6f7f9; --surface: #ffffff; --border: #e6e8ec;
-    --text: #17202b; --muted: #6b7280; --primary: #4f46e5; --primary-dark: #4338ca;
-    --green: #059669; --green-bg: #ecfdf5; --red: #dc2626; --red-bg: #fef2f2;
-    --amber: #d97706; --amber-bg: #fffbeb; --blue: #2563eb; --blue-bg: #eff6ff;
-    --radius: 12px; --shadow: 0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.08);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
-
-  .layout { display: flex; min-height: 100vh; }
-  aside { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 12px; position: sticky; top: 0; height: 100vh; flex-shrink: 0; }
-  .logo { font-size: 15px; font-weight: 700; padding: 8px 12px 20px; letter-spacing: -.2px; }
-  .logo span { color: var(--primary); }
-  nav button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 12px; margin-bottom: 2px; border: none; background: none; border-radius: 8px; cursor: pointer; font-size: 13.5px; color: var(--muted); text-align: left; transition: all .15s; }
-  nav button:hover { background: #f3f4f6; color: var(--text); }
-  nav button.active { background: var(--primary); color: #fff; font-weight: 600; }
-  nav .ico { width: 18px; text-align: center; }
-  .side-foot { position: absolute; bottom: 16px; left: 12px; right: 12px; font-size: 11px; color: var(--muted); padding: 10px 12px; background: #f9fafb; border-radius: 8px; }
-
-  main { flex: 1; padding: 28px 36px; max-width: 1100px; }
-  .page-head { margin-bottom: 24px; }
-  .page-head h2 { font-size: 22px; font-weight: 700; letter-spacing: -.3px; }
-  .page-head p { color: var(--muted); font-size: 13px; margin-top: 4px; }
-
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 24px; }
-  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
-  .kpi .num { font-size: 28px; font-weight: 700; letter-spacing: -1px; }
-  .kpi .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .kpi .delta { font-size: 11px; font-weight: 600; margin-top: 6px; }
-  .up { color: var(--green); } .down { color: var(--red); }
-
-  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 18px; overflow: hidden; }
-  .panel-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .panel-head h3 { font-size: 14px; font-weight: 600; }
-  .panel-body { padding: 16px 18px; }
-
-  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
-  .b-green { background: var(--green-bg); color: var(--green); }
-  .b-red { background: var(--red-bg); color: var(--red); }
-  .b-amber { background: var(--amber-bg); color: var(--amber); }
-  .b-blue { background: var(--blue-bg); color: var(--blue); }
-  .b-gray { background: #f3f4f6; color: var(--muted); }
-  .grade { font-weight: 700; }
-  .g-A { color: var(--green); } .g-B { color: var(--blue); } .g-C { color: var(--amber); } .g-F { color: var(--red); }
-
-  .score-row { display: flex; align-items: center; gap: 12px; padding: 7px 0; border-bottom: 1px solid #f3f4f6; }
-  .score-row:last-child { border: none; }
-  .score-row .name { width: 170px; font-size: 12.5px; font-weight: 500; flex-shrink: 0; }
-  .score-row .track { flex: 1; height: 7px; background: #eef0f3; border-radius: 4px; overflow: hidden; }
-  .score-row .fill { height: 100%; border-radius: 4px; }
-  .f-hi { background: var(--green); } .f-mid { background: var(--blue); } .f-lo { background: var(--red); }
-  .score-row .val { width: 90px; text-align: right; font-size: 12.5px; font-weight: 600; }
-
-  .audit { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; background: var(--surface); }
-  .audit-head { padding: 14px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; user-select: none; transition: background .12s; }
-  .audit-head:hover { background: #fafbfc; }
-  .audit-head .chev { color: var(--muted); transition: transform .2s; font-size: 12px; }
-  .audit.open .chev { transform: rotate(90deg); }
-  .audit-body { display: none; padding: 0 18px 16px; border-top: 1px solid var(--border); }
-  .audit.open .audit-body { display: block; }
-  .audit-title { font-weight: 600; font-size: 14px; }
-  .audit-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .audit-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-  .dim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; margin: 14px 0; }
-  .dim-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-  .dim-item .dn { width: 190px; color: var(--muted); }
-  .dim-item .dt { flex: 1; height: 6px; background: #eef0f3; border-radius: 3px; overflow: hidden; }
-  .dim-item .df { height: 100%; }
-  .dim-item .dv { width: 26px; text-align: right; font-weight: 600; font-size: 11.5px; }
-  .coach { background: #f8fafc; border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-size: 12.5px; }
-  .coach b { color: var(--primary-dark); }
-  .coach .rephrase { color: var(--muted); font-style: italic; margin-top: 3px; }
-  .flag-item { font-size: 12px; padding: 6px 0; border-bottom: 1px solid #f3f4f6; }
-  .flag-item:last-child { border: none; }
-
-  .tbl-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); padding: 10px 14px; background: #fafbfc; border-bottom: 1px solid var(--border); }
-  td { padding: 11px 14px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #fafbfc; }
-  .mono { font-family: 'SF Mono', Menlo, monospace; font-size: 12px; }
-  .intent-hot { color: var(--red); font-weight: 700; } .intent-warm { color: var(--amber); font-weight: 600; }
-  .intent-paid { color: var(--green); font-weight: 700; } .intent-cold { color: var(--muted); }
-
-  .wa-msg { max-width: 560px; background: #e7f6ec; border-radius: 10px; padding: 12px 16px; margin: 10px 0; font-size: 13px; line-height: 1.55; white-space: pre-wrap; position: relative; }
-  .wa-msg::before { content: 'WhatsApp'; position: absolute; top: -9px; left: 12px; background: var(--surface); font-size: 10px; font-weight: 700; color: var(--green); padding: 0 6px; }
-  .touch-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin: 16px 0 4px; }
-  .seq-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; cursor: pointer; }
-  .seq-head:hover { background: #fafbfc; }
-  .seq-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
-  .seq.open .seq-body { display: block; }
-  .seq.open .chev { transform: rotate(90deg); }
-  .chev { display: inline-block; transition: transform .2s; color: var(--muted); }
-
-  .leak { display: flex; gap: 14px; padding: 16px 18px; }
-  .leak-num { width: 28px; height: 28px; border-radius: 8px; background: var(--primary); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .leak h4 { font-size: 13.5px; margin-bottom: 3px; }
-  .leak p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
-  .leak .fix { color: var(--green); font-weight: 600; }
-
-  .empty { color: var(--muted); text-align: center; padding: 40px; }
-  @media (max-width: 800px) { aside { width: 64px; } .logo, nav button span.txt, .side-foot { display: none; } main { padding: 20px; } .dim-grid { grid-template-columns: 1fr; } .audit-right { display: none; } }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="layout">
   <aside>
     <div class="logo">Call<span>Intel</span></div>
     <nav id="nav"></nav>
-    <div class="side-foot">Pipeline v1 · Run 2026-11-03<br>6 audits · 12 leads</div>
+    <div class="side-foot">Pipeline v1 · Run 2026-11-03<br><span id="run-status">Idle</span></div>
   </aside>
   <main>
     <div class="page-head">
-      <h2 id="page-title">Overview</h2>
-      <p id="page-sub"></p>
+      <div>
+        <h2 id="page-title">Overview</h2>
+        <p id="page-sub"></p>
+      </div>
+      <div id="page-actions"></div>
     </div>
     <div id="content"><div class="empty">Loading…</div></div>
   </main>
 </div>
 
-<script>
-const DATA = {};
-const TITLES = {
-  overview: ['Overview', 'Pipeline health at a glance across all processed calls and leads'],
-  audits: ['Call Audits', '6-dimension scorecards with evidence, compliance flags and coaching'],
-  crm: ['Cleaned CRM', 'Structured lead fields replacing vague manual dispositions'],
-  wa: ['WhatsApp Sequences', '3-touch personalized cadences with stop-triggers'],
-  leaks: ['Pipeline Leaks', 'Revenue leaks detected across the 12-lead CRM snapshot']
-};
-const ICONS = { overview:'◧', audits:'☎', crm:'▤', wa:'✆', leaks:'⚠' };
-
-async function load() {
-  const files = {
-    audits: '../outputs/call_audit_scorecards.json',
-    crm: '../outputs/crm_cleaned_leads.json',
-    leaks: '../outputs/pipeline_leaks.md',
-    wa: '../outputs/whatsapp_sequences.md'
-  };
-  for (const [k, f] of Object.entries(files)) {
-    const r = await fetch(f);
-    DATA[k] = f.endsWith('.json') ? await r.json() : await r.text();
-  }
-  buildNav(); render('overview');
-}
-
-function buildNav() {
-  document.getElementById('nav').innerHTML = Object.keys(TITLES).map(id =>
-    `<button data-t="${id}" class="${id==='overview'?'active':''}"><span class="ico">${ICONS[id]}</span><span class="txt">${TITLES[id][0]}</span></button>`).join('');
-  document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
-    document.querySelectorAll('nav button').forEach(x => x.classList.remove('active'));
-    b.classList.add('active'); render(b.dataset.t);
-  });
-}
-
-const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-const gradeBadge = g => `<span class="badge b-${g==='A'?'green':g==='B'?'blue':g==='C'?'amber':'red'} grade g-${g}">${g}</span>`;
-const intentBadge = i => {
-  const m = {Hot:'b-red', Warm:'b-amber', Cold:'b-gray', Lost:'b-gray', Enrolled_Paid:'b-green'};
-  const c = {Hot:'intent-hot', Warm:'intent-warm', Cold:'intent-cold', Lost:'intent-cold', Enrolled_Paid:'intent-paid'};
-  return `<span class="badge ${m[i]||'b-gray'} ${c[i]||''}">${i}</span>`;
-};
-const fillClass = p => p>=70?'f-hi':p>=40?'f-mid':'f-lo';
-
-function render(t) {
-  document.getElementById('page-title').textContent = TITLES[t][0];
-  document.getElementById('page-sub').textContent = TITLES[t][1];
-  ({overview: vOverview, audits: vAudits, crm: vCrm, wa: vWa, leaks: vLeaks})[t]();
-}
-
-function vOverview() {
-  const s = DATA.audits.scorecard_summary;
-  const avg = (s.reduce((a,b)=>a+b.total,0)/s.length).toFixed(1);
-  const crit = DATA.audits.audits.reduce((a,x)=>a+x.compliance_flags.filter(f=>f.severity==='critical').length,0);
-  const paid = DATA.crm.leads.filter(l=>l.lead_intent==='Enrolled_Paid').length;
-  const hot = DATA.crm.leads.filter(l=>l.intent_score_1_to_10>=8 && l.lead_intent!=='Enrolled_Paid').length;
-  document.getElementById('content').innerHTML = `
-    <div class="kpis">
-      <div class="kpi"><div class="num">${s.length}</div><div class="lbl">Calls audited</div><div class="delta up">100% coverage</div></div>
-      <div class="kpi"><div class="num">${avg}<span style="font-size:16px;color:var(--muted)">/60</span></div><div class="lbl">Avg call score</div></div>
-      <div class="kpi"><div class="num" style="color:var(--red)">${crit}</div><div class="lbl">Critical flags</div><div class="delta down">2 calls suppressed</div></div>
-      <div class="kpi"><div class="num" style="color:var(--green)">${paid}</div><div class="lbl">Paid enrollments</div></div>
-      <div class="kpi"><div class="num" style="color:var(--amber)">${hot}</div><div class="lbl">Hot leads pending</div></div>
+<!-- Transcript modal -->
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h3 id="modal-title">Transcript</h3>
+        <p id="modal-sub" class="modal-sub"></p>
+      </div>
+      <button class="icon-btn" onclick="closeModal()">✕</button>
     </div>
-    <div class="panel"><div class="panel-head"><h3>Call score distribution</h3><span class="badge b-gray">/60 each</span></div>
-      <div class="panel-body">
-        ${s.map(x=>`<div class="score-row">
-          <div class="name mono">${x.call_id} · ${x.lead_id}</div>
-          <div class="track"><div class="fill ${fillClass(x.total/60*100)}" style="width:${x.total/60*100}%"></div></div>
-          <div class="val">${x.total} ${gradeBadge(x.grade)}</div></div>`).join('')}
-      </div></div>
-    <div class="panel"><div class="panel-head"><h3>Pipeline actions queued</h3></div>
-      <div class="panel-body" style="font-size:13px;line-height:2">
-        <span class="badge b-red">URGENT</span> Compliance review — LEAD-803 (4 critical flags), LEAD-806 (rubric gaming)<br>
-        <span class="badge b-amber">TODAY</span> Hot-lead calls — LEAD-807, LEAD-812 (5/5 engagement, uncalled 26h+)<br>
-        <span class="badge b-blue">RECOVERY</span> Payment retry — LEAD-805 (UPI fail), LEAD-809 (3DS decline)<br>
-        <span class="badge b-green">DONE</span> Auto-enrolled — LEAD-804 (USD 265 paid, stage corrected)<br>
-        <span class="badge b-gray">OPS</span> Merge duplicate — LEAD-811 → LEAD-801
-      </div></div>`;
-}
+    <div id="modal-body" class="modal-body"></div>
+  </div>
+</div>
 
-function vAudits() {
-  document.getElementById('content').innerHTML = DATA.audits.audits.map((a,i) => `
-    <div class="audit ${a.grade==='F'?'open':''}" id="audit-${i}">
-      <div class="audit-head" onclick="document.getElementById('audit-${i}').classList.toggle('open')">
-        <span class="chev">▶</span>
-        <div>
-          <div class="audit-title">Call ${a.call_id} — ${esc(a.student)}</div>
-          <div class="audit-sub">${esc(a.course)} · ${a.counsellor} · ${Math.round(a.duration_sec/60)} min · rep talk ${a.rep_talk_time_pct_observed}%</div>
-        </div>
-        <div class="audit-right">
-          ${a.compliance_flags.filter(f=>f.severity==='critical').map(f=>`<span class="badge b-red">${f.flag}</span>`).join('')}
-          <span class="badge b-gray mono">${a.total_score}/60</span> ${gradeBadge(a.grade)}
-        </div>
-      </div>
-      <div class="audit-body">
-        <div class="dim-grid">
-          ${Object.entries(a.scores).map(([k,v])=>`<div class="dim-item">
-            <span class="dn">${k.replace(/_/g,' ')}</span>
-            <div class="dt"><div class="df ${fillClass(v.score*10)}" style="width:${v.score*10}%"></div></div>
-            <span class="dv">${v.score}</span></div>`).join('')}
-        </div>
-        <h4 style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Compliance flags</h4>
-        ${a.compliance_flags.map(f=>`<div class="flag-item"><span class="badge ${f.severity==='critical'?'b-red':f.severity==='high'?'b-amber':'b-gray'}">${f.severity}</span> <b>${f.flag}</b> — ${esc(f.evidence)}</div>`).join('')}
-        <h4 style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:14px 0 6px">Coaching feedback</h4>
-        ${a.coaching_feedback.map(c=>`<div class="coach"><b>P${c.priority} · ${esc(c.issue)}</b><div class="rephrase">→ ${esc(c.suggested_rephrase)}</div></div>`).join('')}
-      </div>
-    </div>`).join('');
-}
+<!-- Lead detail drawer -->
+<div id="drawer-overlay" class="drawer-overlay hidden" onclick="closeDrawer()"></div>
+<aside id="drawer" class="drawer hidden">
+  <div class="drawer-head">
+    <h3 id="drawer-title">Lead</h3>
+    <button class="icon-btn" onclick="closeDrawer()">✕</button>
+  </div>
+  <div id="drawer-body" class="drawer-body"></div>
+</aside>
 
-function vCrm() {
-  const order = {Enrolled_Paid:0, Hot:1, Warm:2, Cold:3, Lost:4};
-  const leads = [...DATA.crm.leads].sort((a,b)=>(order[a.lead_intent]??9)-(order[b.lead_intent]??9) || b.intent_score_1_to_10-a.intent_score_1_to_10);
-  document.getElementById('content').innerHTML = `
-    <div class="panel"><div class="panel-head"><h3>Structured leads</h3><span class="badge b-gray">sorted by intent</span></div>
-    <div class="tbl-wrap"><table>
-      <tr><th>Lead</th><th>Student / Course</th><th>Intent</th><th>Score</th><th>Objection</th><th>Next best action</th><th>Stage</th></tr>
-      ${leads.map(l=>`<tr>
-        <td class="mono">${l.lead_id}</td>
-        <td><b>${esc(l.student)}</b><br><span style="color:var(--muted);font-size:12px">${esc(l.course)} · ${esc(l.geo)}</span></td>
-        <td>${intentBadge(l.lead_intent)}</td>
-        <td><b>${l.intent_score_1_to_10}</b><span style="color:var(--muted)">/10</span></td>
-        <td style="font-size:12.5px">${esc(l.primary_objection_bucket)}${l.secondary_objections.length?`<br><span style="color:var(--muted);font-size:11px">+${l.secondary_objections.join(', ')}</span>`:''}</td>
-        <td style="font-size:12.5px">${esc(l.next_best_action)}</td>
-        <td class="mono" style="font-size:11.5px;color:var(--muted)">${esc(l.crm_stage_recommendation)}</td>
-      </tr>`).join('')}
-    </table></div></div>
-    <p style="font-size:12px;color:var(--muted);margin-top:8px">Each lead's <code>child_demo_highlight</code> (the personalization hook) and evidence quotes are in <code>outputs/crm_cleaned_leads.json</code>.</p>`;
-}
-
-function vWa() {
-  const md = DATA.wa;
-  const sections = md.split(/^## /m).slice(1);
-  document.getElementById('content').innerHTML = sections.map((sec,i) => {
-    const title = sec.split('\n')[0].trim();
-    const body = sec.split('\n').slice(1).join('\n');
-    const touches = [];
-    const re = /\*\*Touch (\d)[^*]*\*\*[^\n]*\n> ([\s\S]*?)(?=\n\*\*Touch|\n---|$)/g;
-    let m;
-    while ((m = re.exec(body))) touches.push({n:m[1], text:m[2].trim()});
-    const status = (body.match(/\*\*Status: `?(\w+)/)||[])[1] || '';
-    const badge = status.includes('SUPPRESS') ? '<span class="badge b-red">suppressed</span>'
-      : status.includes('PAID') ? '<span class="badge b-green">paid → onboarding</span>'
-      : status.includes('GATED') ? '<span class="badge b-amber">approval-gated</span>'
-      : '<span class="badge b-blue">active</span>';
-    return `<div class="audit ${i===0?'open':''}" id="seq-${i}">
-      <div class="seq-head" onclick="document.getElementById('seq-${i}').classList.toggle('open')">
-        <span class="chev">▶</span><div style="flex:1"><b style="font-size:13.5px">${esc(title)}</b></div>${badge}
-      </div>
-      <div class="seq-body">
-        ${touches.length ? touches.map(t=>`<div class="touch-label">Touch ${t.n}</div><div class="wa-msg">${esc(t.text)}</div>`).join('')
-          : `<div style="padding:14px 0;font-size:13px;color:var(--muted);white-space:pre-wrap">${esc(body.slice(0,900))}</div>`}
-      </div></div>`;
-  }).join('') || '<div class="empty">No sequences found</div>';
-}
-
-function vLeaks() {
-  const md = DATA.leaks;
-  const rows = [];
-  md.split('\n').forEach(l => {
-    if (l.startsWith('|') && !l.includes('---') && !l.startsWith('| #')) {
-      const c = l.split('|').map(x=>x.trim()).filter(Boolean);
-      if (c.length >= 4 && /^\d/.test(c[0])) rows.push(c);
-    }
-  });
-  document.getElementById('content').innerHTML = `
-    <div class="panel"><div class="panel-body" style="font-size:13px;color:var(--muted);line-height:1.6">
-      Scan of the 12-lead CRM joined with demo evals, call logs, orders and call audits. <b style="color:var(--text)">8 of 12 leads had actionable leaks</b> — 2 revenue-ready but stranded, 1 compliance incident, 1 duplicate.
-    </div></div>
-    ${rows.map((r,i)=>`<div class="panel"><div class="leak">
-      <div class="leak-num">${i+1}</div>
-      <div><h4>${esc(r[1])} <span class="badge b-gray mono" style="margin-left:6px">${esc(r[2])}</span></h4>
-      <p>${esc(r[3])}</p>
-      <p class="fix" style="margin-top:6px">→ ${esc(r[4])}</p></div>
-    </div></div>`).join('')}`;
-}
-
-load().catch(e => { document.getElementById('content').innerHTML = '<div class="empty">Failed to load data: '+e+'</div>'; });
-</script>
+<div id="toasts"></div>
+<script src="app.js"></script>
 </body>
 </html>
