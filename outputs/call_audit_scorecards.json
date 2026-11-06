@@ -1,0 +1,183 @@
+{
+  "pipeline_run": "post_demo_call_intelligence_v1",
+  "run_at": "2026-11-03T22:00:00+05:30",
+  "model": "gpt-4o (temp=0.1, JSON mode)",
+  "prompts_used": ["prompts/01_call_audit_scorecard.md", "prompts/02_crm_field_extraction.md", "prompts/03_whatsapp_followup_generator.md"],
+  "scorecard_summary": [
+    {"call_id": "7001", "lead_id": "LEAD-801", "counsellor": "Rohan S*** (204)", "total": 55, "grade": "A", "escalate": false, "suppress_outreach": false},
+    {"call_id": "7002", "lead_id": "LEAD-802", "counsellor": "Sneha V*** (209)", "total": 29, "grade": "C", "escalate": false, "suppress_outreach": false},
+    {"call_id": "7003", "lead_id": "LEAD-803", "counsellor": "Amitabh R*** (212)", "total": 12, "grade": "F", "escalate": true, "suppress_outreach": true},
+    {"call_id": "7004", "lead_id": "LEAD-804", "counsellor": "Rohan S*** (204)", "total": 55, "grade": "A", "escalate": false, "suppress_outreach": false},
+    {"call_id": "7005", "lead_id": "LEAD-805", "counsellor": "Pooja M*** (215)", "total": 49, "grade": "B", "escalate": false, "suppress_outreach": false},
+    {"call_id": "7006", "lead_id": "LEAD-806", "counsellor": "Karan K*** (218)", "total": 15, "grade": "F", "escalate": true, "suppress_outreach": true}
+  ],
+  "audits": [
+    {
+      "call_id": "7001",
+      "lead_id": "LEAD-801",
+      "student": "Aarav (8, Grade 3)",
+      "course": "Young Communicators (Public Speaking, class_id 104)",
+      "counsellor": "Rohan S*** (204)",
+      "duration_sec": 860,
+      "rep_talk_time_pct_observed": 46,
+      "scores": {
+        "rapport_child_praise": {"score": 9, "evidence": ["[00:08] 'did you see that huge smile on his face... space superhero story'", "[01:20] references 'asteroid'/'gravity' vocabulary and minute-18 Superhero Hook moment"]},
+        "discovery_learning_pain": {"score": 9, "evidence": ["[00:24] parent surfaces PTM feedback: writes well, never raises hand", "[01:42] parent asks batch size — fear of going quiet in large group"]},
+        "value_pitch_vs_price_dumping": {"score": 9, "evidence": ["[01:55] explains 6-kid cap, 4-5 calls per child per session, Stage Showcase before fee at [02:32]"]},
+        "objection_handling": {"score": 9, "evidence": ["[03:18] probes husband's #1 question instead of assuming", "[03:48] offers 60-sec WhatsApp summary + roadmap to arm the spouse"]},
+        "trial_close_next_step": {"score": 9, "evidence": ["[04:15] holds 6th seat until 11 AM, books 2-min callback at 11 AM next day — parent agreed"]},
+        "compliance_policy": {"score": 10, "evidence": ["Fee Rs.12,000 = standard for class 104; 0% discount; cites official 14-day refund policy accurately; talk ratio 46%"]}
+      },
+      "total_score": 55,
+      "grade": "A",
+      "compliance_flags": [{"flag": "NONE", "severity": "low", "evidence": "No violations detected", "policy_reference": "reference_courses_pricing_and_compliance_policy.csv"}],
+      "coaching_feedback": [
+        {"priority": 1, "issue": "None material — exemplar call", "what_good_looked_like": "Spouse decision-maker handled by equipping the champion, not pressuring", "suggested_rephrase": "N/A", "evidence": "[03:18]-[04:06]"}
+      ],
+      "escalate_to_manager": false,
+      "suppress_parent_outreach": false
+    },
+    {
+      "call_id": "7002",
+      "lead_id": "LEAD-802",
+      "student": "Zoya (10, Grade 5)",
+      "course": "Unbox Maths Brainiac (class_id 205)",
+      "counsellor": "Sneha V*** (209)",
+      "duration_sec": 965,
+      "rep_talk_time_pct_observed": 68,
+      "scores": {
+        "rapport_child_praise": {"score": 6, "evidence": ["[00:22] accepts parent's 'felt like a game' but never references the Bar-Model word-problem magic moment from demo eval"]},
+        "discovery_learning_pain": {"score": 4, "evidence": ["[00:50] parent states the real pain — 4-line British-curriculum word problems — but counsellor had ALREADY dumped both package prices at [00:30]"]},
+        "value_pitch_vs_price_dumping": {"score": 3, "evidence": ["[00:30] quotes AED 1,200/2,100 and asks 'which package today?' in first 3 minutes; never explains Bar-Model method vs local worksheets"]},
+        "objection_handling": {"score": 4, "evidence": ["[02:38] responds to 'don't rush me' with fake 30-minute seat urgency instead of answering the method question; [02:18] offers AED 100 discount which doesn't address the objection"]},
+        "trial_close_next_step": {"score": 5, "evidence": ["[03:08] ends with 'send curriculum details' — a soft next step, but no callback booked and no asset committed beyond a PDF"]},
+        "compliance_policy": {"score": 7, "evidence": ["AED 100 discount is within the AED 120 (10%) cap for class 205, BUT 'link expires in 30 minutes / seats fill fast' is manufactured urgency — policy requires honest scarcity only", "No forbidden claims made; talk ratio 68% is borderline"]}
+      },
+      "total_score": 29,
+      "grade": "C",
+      "compliance_flags": [
+        {"flag": "FAKE_URGENCY", "severity": "medium", "evidence": "[02:38] 'discount link expires in 30 minutes because batch seats fill very fast in Dubai' — no evidence of actual seat scarcity", "policy_reference": "Prompt 03 forbidden-copy rule; Bambinos honest-scarcity policy"}
+      ],
+      "coaching_feedback": [
+        {"priority": 1, "issue": "Price dumped at 00:30 before any diagnosis", "what_good_looked_like": "Ask 'what did you notice about how Zoya tackled the word problems?' then bridge to Bar-Model method", "suggested_rephrase": "'Before I share fees, may I tell you what Mr. Vikram noticed about Zoya's word-problem approach today?'", "evidence": "[00:30] vs parent pain revealed at [01:28]"},
+        {"priority": 2, "issue": "Never used the demo magic moment (Zoya solving fraction puzzles alone with Bar-Model)", "what_good_looked_like": "'Zoya solved two Grade-6 fraction puzzles unaided — that's the exact skill her word-problem panic needs'", "suggested_rephrase": "Reference demo eval line directly", "evidence": "demo eval 9002 vs transcript silence"},
+        {"priority": 3, "issue": "Fake urgency instead of answering the method question", "what_good_looked_like": "Send curriculum one-pager + offer 10-min callback with Mr. Vikram", "suggested_rephrase": "'I'll WhatsApp the Bar-Model curriculum sheet and book a 10-min call with Mr. Vikram tomorrow — no pressure on timing.'", "evidence": "[02:38]-[03:08]"}
+      ],
+      "escalate_to_manager": false,
+      "suppress_parent_outreach": false
+    },
+    {
+      "call_id": "7003",
+      "lead_id": "LEAD-803",
+      "student": "Vihaan (7, Grade 2)",
+      "course": "Phonics & Early Reading Champions (class_id 101)",
+      "counsellor": "Amitabh R*** (212)",
+      "duration_sec": 700,
+      "rep_talk_time_pct_observed": 84,
+      "scores": {
+        "rapport_child_praise": {"score": 3, "evidence": ["[00:06] 95-second company monologue; zero reference to Vihaan's 'train/truck' blending moment or Ms. Simran's gentle demo"]},
+        "discovery_learning_pain": {"score": 2, "evidence": ["[01:45] parent raised two specific concerns (screen time, train/truck misread) — counsellor explicitly dismissed both: 'forget about screen time and forget about train or truck'"]},
+        "value_pitch_vs_price_dumping": {"score": 2, "evidence": ["No curriculum explanation at all; jumped from monologue to guarantee to discount to threat"]},
+        "objection_handling": {"score": 1, "evidence": ["[02:54] 'off the record' 6-month refund promise; [03:30] blacklist threat; [03:54] parent ends call: 'you are talking like a scam call center! Do not call me again'"]},
+        "trial_close_next_step": {"score": 4, "evidence": ["[03:30] 5-minute payment ultimatum — a close, but coercive and it failed; parent hung up"]},
+        "compliance_policy": {"score": 0, "evidence": ["[02:08] 'Rank 1 in school English exam in 30 days' + 'read Harry Potter' = forbidden exam-rank guarantee", "[02:54] '100% refund anytime in 6 months even after all 48 classes' = forbidden refund claim (policy: 14-day/4-class cap)", "[03:30] Rs. 4,000 discount on Rs. 9,500 = 42% vs 10% cap (max Rs. 950); 'hacked manager's VIP quota'", "[03:30] 'permanently blacklist Vihaan's student ID' = forbidden threat", "Talk ratio 84%"]}
+      },
+      "total_score": 12,
+      "grade": "F",
+      "compliance_flags": [
+        {"flag": "FORBIDDEN_CLAIM", "severity": "critical", "evidence": "[02:08] guaranteed Rank 1 + Harry Potter reading in 30 days", "policy_reference": "class_id 101 forbidden_compliance_red_flags: 'NEVER promise specific school exam ranks'"},
+        {"flag": "FORBIDDEN_CLAIM", "severity": "critical", "evidence": "[02:54] off-record 6-month unconditional refund promise", "policy_reference": "class_id 101: 'NEVER promise 100% refund anytime in 6 months'"},
+        {"flag": "DISCOUNT_BREACH", "severity": "critical", "evidence": "[03:30] Rs. 4,000 off (42%) vs 10% cap; order 99403 auto-flagged 'Discount >15% Max Cap without Manager Approval' at Rs. 5,500", "policy_reference": "max_rep_discount_allowed_pct = 10% (Max Rs. 950)"},
+        {"flag": "FAKE_URGENCY", "severity": "critical", "evidence": "[03:30] 'blacklist Vihaan's student ID forever' if no payment in 5 minutes", "policy_reference": "class_id 104/101: 'NEVER threaten that a child will be blacklisted'"},
+        {"flag": "TONE_RISK", "severity": "high", "evidence": "[00:06]-[03:54] 84% monologue, parent called it 'a scam call center' and terminated", "policy_reference": "rep_talk_time >75% coaching threshold"}
+      ],
+      "coaching_feedback": [
+        {"priority": 1, "issue": "Multiple critical compliance violations — immediate manager review + retraining", "what_good_looked_like": "Stay inside 10% discount cap, cite the written 14-day policy, never guarantee outcomes", "suggested_rephrase": "'Our written policy is a 100% refund within 14 days / first 4 classes — I'll WhatsApp you the policy page so you can verify it yourself.'", "evidence": "[02:08], [02:54], [03:30]"},
+        {"priority": 2, "issue": "Ignored both of the parent's specific questions", "what_good_looked_like": "Answer screen-time concern (live classes ≠ passive screen time; 2×50-min/week) and the train/truck blending gap (digraph practice)", "suggested_rephrase": "N/A — requires retraining on consultative discovery", "evidence": "[01:45] vs [02:08] dismissal"}
+      ],
+      "escalate_to_manager": true,
+      "suppress_parent_outreach": true
+    },
+    {
+      "call_id": "7004",
+      "lead_id": "LEAD-804",
+      "student": "Meera (9, Grade 4)",
+      "course": "Little Yogi Gita US Track (class_id 302)",
+      "counsellor": "Rohan S*** (204)",
+      "duration_sec": 730,
+      "rep_talk_time_pct_observed": 44,
+      "scores": {
+        "rapport_child_praise": {"score": 9, "evidence": ["[00:22] parent describes Meera linking 'Samatvam' shloka to gymnastics balance beam; [00:50] counsellor adds teacher's 'most thoughtful question of the week' note"]},
+        "discovery_learning_pain": {"score": 8, "evidence": ["[01:18] real blocker surfaced: Tue/Thu 5 PM PST conflicts with gymnastics 4:30–6:30 PM — schedule, not price or interest"]},
+        "value_pitch_vs_price_dumping": {"score": 9, "evidence": ["[00:50] explains 8 Gunas framework + 'never dry rote memorization' positioning before fee at [02:20]"]},
+        "objection_handling": {"score": 9, "evidence": ["[01:42]-[02:00] live roster check, found Sat/Sun 9:30 AM PST batch with Acharya Aditi — turned blocker into perfect fit"]},
+        "trial_close_next_step": {"score": 10, "evidence": ["[02:42] parent commits: 'I'll pay on the Stripe link as soon as my meeting finishes around 11:30 AM PST'; payment confirmed 11:40 AM (order 99404, USD 265 Paid)"]},
+        "compliance_policy": {"score": 10, "evidence": ["USD 265 = standard for class 302; 0% discount; accurate 14-day refund citation; talk ratio 44%"]}
+      },
+      "total_score": 55,
+      "grade": "A",
+      "compliance_flags": [{"flag": "NONE", "severity": "low", "evidence": "Clean call; downstream CRM hygiene failure (stage not updated to Enrolled_Paid) is a SYSTEM bug, not a rep violation", "policy_reference": "n/a"}],
+      "coaching_feedback": [
+        {"priority": 1, "issue": "Post-call CRM stage left at Payment_Link_Sent despite Paid order", "what_good_looked_like": "Pipeline auto-reconciles payment gateway → CRM stage within 15 min", "suggested_rephrase": "N/A — fix is automation, not coaching", "evidence": "order 99404 paid_at 2026-11-03 11:40:12 vs crm_lead_stage still Payment_Link_Sent"}
+      ],
+      "escalate_to_manager": false,
+      "suppress_parent_outreach": false
+    },
+    {
+      "call_id": "7005",
+      "lead_id": "LEAD-805",
+      "student": "Kabir (9, Grade 4)",
+      "course": "Young Communicators (class_id 104)",
+      "counsellor": "Pooja M*** (215)",
+      "duration_sec": 910,
+      "rep_talk_time_pct_observed": 48,
+      "scores": {
+        "rapport_child_praise": {"score": 8, "evidence": ["[00:46] Hinglish recap of PEEL method + '60 seconds without a single umm' — directly from demo eval magic moment"]},
+        "discovery_learning_pain": {"score": 8, "evidence": ["[00:24] parent self-diagnoses: 90% written grammar but Hindi→English mental translation stalls speech; [01:14] adds PlanetSpark + half-yearly exam timing"]},
+        "value_pitch_vs_price_dumping": {"score": 8, "evidence": ["[01:40] differentiates 6-kid peer audience vs 1-on-1 ('stage fear goes away when child speaks before peers') and price 'almost half of 1-on-1' before quoting fee at [02:42]"]},
+        "objection_handling": {"score": 8, "evidence": ["[02:10] exam-week objection answered with Exam Pause/Reschedule policy + weekend batch preserving teacher flow; [02:42] installment request handled within policy"]},
+        "trial_close_next_step": {"score": 8, "evidence": ["[03:28] parent commits to Rs. 5,400 installment 1 'after dinner tonight'; payment attempted 8:45 PM but FAILED (UPI mandate OTP timeout) — recovery needed, not re-pitch"]},
+        "compliance_policy": {"score": 9, "evidence": ["10% scholar discount = Rs. 1,200 off Rs. 12,000 → exactly at the Rs. 1,200 cap for class 104; 2×50% installments match official policy; Hinglish matched parent's language; talk ratio 48%"]}
+      },
+      "total_score": 49,
+      "grade": "B",
+      "compliance_flags": [{"flag": "NONE", "severity": "low", "evidence": "Clean; discount exactly at cap — recommend manager spot-check that 'scholar discount' had approval code", "policy_reference": "class_id 104 max 10%"}],
+      "coaching_feedback": [
+        {"priority": 1, "issue": "Payment failed post-call (bank OTP timeout on UPI mandate) — no same-day recovery trigger existed", "what_good_looked_like": "Auto payment-recovery WhatsApp within 1h offering card/alternate UPI", "suggested_rephrase": "N/A — pipeline fix", "evidence": "order 99405 Payment_Failed 2026-11-03 20:45"}
+      ],
+      "escalate_to_manager": false,
+      "suppress_parent_outreach": false
+    },
+    {
+      "call_id": "7006",
+      "lead_id": "LEAD-806",
+      "student": "Ananya (6, Grade 1)",
+      "course": "Unbox Chess Beginners (class_id 401)",
+      "counsellor": "Karan K*** (218)",
+      "duration_sec": 640,
+      "rep_talk_time_pct_observed": 74,
+      "scores": {
+        "rapport_child_praise": {"score": 2, "evidence": ["[00:05] mechanically reads AI-audit checklist questions at the parent ('Discovery Question 1... 2... 3...'); [00:44] false praise: 'Ananya did fantastic... natural Grandmaster' — contradicted by demo eval engagement score 2/5"]},
+        "discovery_learning_pain": {"score": 3, "evidence": ["[01:32] parent explains the real issue — four older 8-9yr boys dominated, Ananya turned off camera at minute 15 — counsellor never probes this"]},
+        "value_pitch_vs_price_dumping": {"score": 2, "evidence": ["No curriculum explanation; jumped to 'IQ +40%' claim then payment link at [01:20]"]},
+        "objection_handling": {"score": 1, "evidence": ["[01:58] 'kids always make excuses... force her for 3 weeks and she will adjust' — dismissive; [02:38] ignores parent's explicit request for Age 5-6 micro-batch or 1-on-1 bridge that policy REQUIRES offering (class_id 401 policy)"]},
+        "trial_close_next_step": {"score": 3, "evidence": ["[02:38] 'just pay Rs. 9,900... Ops will see later' — no real next step; parent refused and ended call"]},
+        "compliance_policy": {"score": 4, "evidence": ["[01:20] 'improves IQ, memory... maths scores by 40%' = unverified outcome claim", "[01:58] 10% discount to Rs. 9,900 is within cap BUT applied as pressure on a distressed parent", "Failed to offer the policy-mandated Micro-Batch/1-on-1 bridge for overwhelmed 5-6yr olds", "Talk ratio 74% + checklist-reading = rubric-gaming behavior"]}
+      },
+      "total_score": 15,
+      "grade": "F",
+      "compliance_flags": [
+        {"flag": "MISREPRESENTATION", "severity": "high", "evidence": "[00:44] 'natural Grandmaster' praise contradicts demo eval (engagement 2/5, child overwhelmed)", "policy_reference": "Evidence-backed audit rule; class_id 401 micro-batch policy"},
+        {"flag": "FORBIDDEN_CLAIM", "severity": "medium", "evidence": "[01:20] 'improves IQ... maths scores by 40%' — unverifiable quantified outcome claim", "policy_reference": "No fabricated statistics policy"},
+        {"flag": "TONE_RISK", "severity": "high", "evidence": "[01:58] 'kids always make excuses' + pressure-close on a 6-year-old's discomfort; parent: 'I'm not going to force my 6-year-old'", "policy_reference": "Child-welfare tone policy; class_id 401: offer Micro-Batch/1-on-1 instead of pushing standard batch"}
+      ],
+      "coaching_feedback": [
+        {"priority": 1, "issue": "Gaming the audit rubric — reading checklist questions verbatim instead of consulting", "what_good_looked_like": "Open with the child's demo moment: 'Coach Arvind said Ananya loved the Knight's L-shaped jump in the first 10 minutes'", "suggested_rephrase": "Replace scripted discovery with one genuine question about what Swathi saw at home", "evidence": "[00:05]-[00:32]"},
+        {"priority": 2, "issue": "Violated class_id 401 policy: must offer Micro-Batch (max 3 kids, ages 5-6) or complimentary 1-on-1 bridge when a young child is overwhelmed", "what_good_looked_like": "'Let me check if Coach Arvind's Age 5-6 Little Starters micro-batch has a seat this week — no payment needed to check.'", "suggested_rephrase": "Escalate to academic team BEFORE any sales push", "evidence": "[02:18] parent request vs [02:38] dismissal"},
+        {"priority": 3, "issue": "False praise damages trust with parents who watched the demo", "what_good_looked_like": "Acknowledge the mixed demo honestly and pivot to the fix", "suggested_rephrase": "'You're right — the older kids dominated. That's exactly why we have the Little Starters batch.'", "evidence": "[00:44] vs [01:32]"}
+      ],
+      "escalate_to_manager": true,
+      "suppress_parent_outreach": true
+    }
+  ]
+}
