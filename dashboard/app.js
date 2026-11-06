@@ -532,8 +532,10 @@ function vReport() {
 function currentTheme() { return document.documentElement.dataset.theme || 'dark'; }
 function syncThemeUI() {
   const light = currentTheme() === 'light';
-  $('#theme-icon').textContent = light ? '☾' : '☀';
-  $('#theme-label').textContent = light ? 'Dark mode' : 'Light mode';
+  const icon = $('#theme-icon');
+  if (icon) icon.textContent = light ? '☾' : '☀';
+  const label = $('#theme-label');
+  if (label) label.textContent = light ? 'Dark mode' : 'Light mode';
 }
 function toggleTheme() {
   const next = currentTheme() === 'light' ? 'dark' : 'light';

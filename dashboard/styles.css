@@ -120,8 +120,8 @@ nav button:hover { background: var(--surface-2); color: var(--text); }
 nav button.active { background: linear-gradient(135deg, var(--primary-dark), #4f46e5); color: #fff; font-weight: 600; box-shadow: 0 2px 12px rgba(99,102,241,.4); }
 nav .ico { width: 20px; text-align: center; font-size: 15px; }
 nav .kbd { margin-left: auto; font-size: 10px; background: rgba(255,255,255,.15); padding: 1px 6px; border-radius: 4px; }
-.theme-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 14px; padding: 9px; border: 1px solid var(--border); background: var(--surface-2); border-radius: 9px; cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--muted); transition: all .15s; }
-.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); }
+.theme-toggle { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; margin: 10px auto 0; padding: 0; border: 1px solid var(--border); background: var(--surface-2); border-radius: 9px; cursor: pointer; font-size: 15px; color: var(--muted); transition: all .15s; }
+.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); transform: rotate(15deg); }
 .side-foot { margin-top: 12px; font-size: 11.5px; color: var(--muted); padding: 12px; background: var(--bg-soft); border: 1px solid var(--border-soft); border-radius: 10px; line-height: 1.6; }
 .side-foot .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--faint); margin-right: 6px; }
 .side-foot .pulse.live { background: var(--green); animation: pulse 1.2s infinite; box-shadow: 0 0 8px var(--green); }
