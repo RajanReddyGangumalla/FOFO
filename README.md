@@ -2,6 +2,8 @@
 
 Take-home submission for **AI Program Manager (Sales)**. End-to-end prototype that audits post-demo counselling calls, structures CRM fields, and generates personalized WhatsApp follow-ups across the provided 6 transcripts + 12-lead CRM dataset.
 
+**🚀 Live demo:** https://callintel-ruby.vercel.app/dashboard/ · **📄 Report:** https://callintel-ruby.vercel.app/case_report.pdf
+
 ## Repo structure
 
 ```
