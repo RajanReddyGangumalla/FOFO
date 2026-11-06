@@ -119,7 +119,7 @@ Private-first scorecards (reps see only their own), lead with exemplar calls, co
 
 ### A.4 Interactive demo
 
-A local dashboard (`dashboard/`) visualizes all outputs: live pipeline simulation, scorecards with transcript evidence highlighting, filterable CRM, and WhatsApp sequences. Serve repo root with `python3 -m http.server 8080` → `http://localhost:8080/dashboard/`.
+A live interactive dashboard visualizes all outputs: live pipeline simulation, scorecards with transcript evidence highlighting, filterable CRM, and WhatsApp sequences — deployed at **https://callintel-ruby.vercel.app/dashboard/** (source in `dashboard/`).
 
 ---
 
