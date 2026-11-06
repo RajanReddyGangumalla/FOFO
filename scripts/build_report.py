@@ -59,9 +59,9 @@ story += [
     COVER_RULE,
     Paragraph("AI Program Manager (Sales) — Take-Home Case Submission", COVER_META),
     Spacer(1, 10),
-    Paragraph("Candidate: [Your Name] &nbsp;·&nbsp; November 2026", COVER_META),
+    Paragraph("Candidate: Gangumalla Rajan Reddy &nbsp;·&nbsp; November 2026", COVER_META),
     Paragraph("Dataset: 6 call transcripts · 12-lead CRM · demo evaluations · orders · pricing &amp; compliance policy", COVER_META),
-    Paragraph("Repository: github.com/[your-username]/FOFO", COVER_META),
+    Paragraph("Repository: github.com/RajanReddyGangumalla/FOFO", COVER_META),
 ]
 story.append(PageBreak())
 lines = open(SRC).read().splitlines()
